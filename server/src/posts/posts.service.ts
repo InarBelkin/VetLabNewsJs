@@ -1,9 +1,10 @@
 import {Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {PostEntity} from "./posts.entity";
-import {Repository} from "typeorm";
+import {Repository} from "typeorm"
 import {PostsDto} from "./posts.dto";
 import {PostModel} from "../models/post.model";
+import {Theme} from "../themes/themes.entity";
 
 
 @Injectable()
@@ -12,8 +13,9 @@ export class PostsService {
     }
 
     async getAllPosts() {
-        const posts = await this.postRepository.find({where: {deleted: false}});
+        const posts = await this.postRepository.find({where: {deleted: false}, relations:["themes"]});
         const newPosts = posts.map(post => {
+            //post.themes = [new Theme()];
             post.content = post.content.slice(0, 50) + '...';
             return post;
         });
@@ -28,7 +30,7 @@ export class PostsService {
     }
 
     async createPost(data: PostModel) {
-        await this.postRepository.save(data);
+        this.postRepository.save(data);
         return {inserted: data};
     }
 
