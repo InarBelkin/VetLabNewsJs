@@ -1,4 +1,7 @@
 import React from 'react';
+import {BrowserRouter} from "react-router-dom";
+import AppRouter from "./components/AppRouter";
+import NavBar from "./components/NavBar";
 
 // function App() {
 //   return (
@@ -7,12 +10,12 @@ import React from 'react';
 //   );
 // }
 
-const App: React.FC = ()=>{
-  return(
-      <>
-        Здарова говновеб
-
-      </>
-  );
+const App: React.FC = () => {
+    return (
+        <BrowserRouter>
+            <NavBar/>
+            <AppRouter/>
+        </BrowserRouter>
+    );
 }
 export default App;

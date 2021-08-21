@@ -1,0 +1,22 @@
+.cSide{
+    background: #989898;
+
+    width: 20%;
+    float: left;
+}
+
+.sidebar{
+    width: 20%;
+    float: left;
+}
+
+.cBack{
+
+    background-color: #cacaca;
+    background-size:16px 16px;
+}
+
+
+.cBasis{
+    background: #bbbbbb;
+}
