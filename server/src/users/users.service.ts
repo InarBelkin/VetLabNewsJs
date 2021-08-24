@@ -3,8 +3,9 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "./users.entity";
 import {Repository} from "typeorm";
 import {CreateUserDto} from "./dto/CreateUserDto";
-import {Role} from "../roles/roles.model";
+import {Role} from "../roles/roles.entity";
 import {RolesService} from "../roles/roles.service";
+import {ConfigService} from "@nestjs/config";
 
 @Injectable()
 export class UsersService {
@@ -25,7 +26,7 @@ export class UsersService {
     async  createUser(dto:CreateUserDto){
         const user = await this.userRepository.save(dto);
 
-        const role = await this.roleService.getRoleByName("ADMIN");
+        const role = await this.roleService.getRoleByName(process.env.ROLE_USER);
         user.roles=role;
 
         const userWithRole = await this.userRepository.save(user);

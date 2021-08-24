@@ -1,11 +1,10 @@
 import {Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
-import {PostEntity} from "../posts/posts.entity";
+import {Role} from "../roles/roles.entity";
 
 @Entity()
-export class Theme {
+export class Tag{
     @PrimaryGeneratedColumn("uuid")
     id: string;
-
 
     @Column({nullable: false,unique:true})
     name: string;
@@ -13,8 +12,10 @@ export class Theme {
     @Column({nullable: true})
     description: string;
 
-    @ManyToMany(type => PostEntity, post=>post.themes )
-    @JoinTable()
-    posts:PostEntity[];
+    @Column({nullable: true})
+    testMigration: string;
+
+
+
 
 }

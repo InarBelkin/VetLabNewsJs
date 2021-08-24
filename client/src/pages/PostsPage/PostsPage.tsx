@@ -1,20 +1,22 @@
 import React from 'react';
 import {Col, Container, Row} from "react-bootstrap";
-import s from './PostsList.module.css'
-import {observer} from "mobx-react-lite";
-const PostsList =observer (() => {
+import s from "./PostsPage.module.css";
+import TagBar from "./TagBar";
+import PostsList from "./PostsList";
+
+const PostsPage = () => {
     return (
         <Container className={s.allContainer}>
-            <Row>
+            <Row className='mt-2'>
                 <Col md={9}>
-основа
+                    <PostsList/>
                 </Col>
                 <Col md={3}>
-сайд
+                    <TagBar/>
                 </Col>
             </Row>
         </Container>
     );
-});
+};
 
-export default PostsList;
+export default PostsPage;

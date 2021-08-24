@@ -4,16 +4,26 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import UserStore from "./store/UserStore";
-
+import PostsStore from "./store/PostsStore";
+import TagsStore from "./store/TagsStore";
+import cors from 'cors';
 type LoadContextType =  {
     user:UserStore
+    posts:PostsStore
+    tags:TagsStore
 }
 
-export const Context = createContext<LoadContextType>(new UserStore());
+export const Context = createContext<LoadContextType>({
+    user: new UserStore(),
+    posts : new PostsStore(),
+    tags: new TagsStore()
+});
 
 ReactDOM.render(
     <Context.Provider value={{
-        user: new UserStore()
+        user: new UserStore(),
+        posts : new PostsStore(),
+        tags: new TagsStore()
     }}>
         <App/>
     </Context.Provider>,

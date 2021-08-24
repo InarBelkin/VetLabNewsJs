@@ -5,10 +5,10 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {ConfigModule, ConfigService} from "@nestjs/config";
 import { PostsModule } from './posts/posts.module';
 import {PostEntity} from "./posts/posts.entity";
-import { ThemesModule } from './themes/themes.module';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { AuthModule } from './auth/auth.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
     imports: [
@@ -25,14 +25,19 @@ import { AuthModule } from './auth/auth.module';
                 entities:[PostEntity],
                 autoLoadEntities: true,
                 synchronize: true,
+                migrationsTableName: "migrations",
+                migrations:["migration/*.js"],
+                cli:{
+                    migrationsDir: "migration"
+                }
             }),
             inject:[ConfigService],
         }),
         PostsModule,
-        ThemesModule,
         UsersModule,
         RolesModule,
         AuthModule,
+        TagsModule,
     ],
     controllers: [AppController],
     providers: [AppService],

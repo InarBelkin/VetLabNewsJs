@@ -3,6 +3,7 @@ import {User} from "../users/users.entity";
 
 @Entity()
 export  class Role{
+
     @PrimaryGeneratedColumn("uuid")
     id: string;
 

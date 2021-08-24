@@ -24,14 +24,16 @@ export class AuthService {
         const hashPassword = await bcrypt.hash(userDto.password, 5);
 
         const user = await this.userService.createUser({...userDto, password:hashPassword});
-        return this.generateToken(user);
+        const token = await this.generateToken(user);
+        const untoken = this.jwtService.decode(token.token);
+        return token;
 
 
     }
     async generateToken(user:User){
         const payload = {email:user.email,id:user.id,roles: user.roles}
         const token = this.jwtService.sign(payload);
-        const userin = this.jwtService.verify(token);
+       // const userin = this.jwtService.verify(token);
         return{
             token: token
         }
@@ -44,5 +46,29 @@ export class AuthService {
             return user;
         }
         throw  new UnauthorizedException({message:'Некорректный mail или пароль'});
+    }
+
+    public async checkUser(token:string|undefined){
+        try {
+                const bearer = token.split(' ')[0];
+
+                const innerToken = token.split(' ')[1];
+                const user = this.jwtService.verify(innerToken);
+                return this.generateToken(user);
+
+        }
+        catch (e){
+            console.log(e);
+            throw new UnauthorizedException({message: 'Пользователь не авторизован'});
+        }
+
+
+
+
+
+
+
+
+
     }
 }

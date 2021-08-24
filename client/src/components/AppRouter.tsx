@@ -7,20 +7,29 @@ import s from './AppRouter.module.css'
 import classNames from 'classnames';
 import {BreadcrumbItem, Container, Row,Button} from "react-bootstrap";
 import LeftSideBar from "./LeftSideBar";
-import PostsList from "../pages/PostsList";
+import PostsList from "../pages/PostsPage/PostsList";
 
 const AppRouter = () => {
     const {user} = useContext(Context);
     console.log(user);
     return (
         <div >
-            <div className="container-fluid">
-                <div className="row py-3">
+            <div className={classNames('container-fluid')}>
+                <div className="row">
                     <div className={classNames("col-1",s.cSide)} id="sticky-sidebar">
                         <LeftSideBar/>
                     </div>
                     <div className={classNames("col  order-2", s.cBasis)} id="main">
-                       <PostsList/>
+                        <Switch >
+                            {user.isAuth && authRoutes.map(({path, Component}) =>
+                                <Route path={path} component={Component} exact/>
+
+                            )}
+                            {publicRoutes.map(({path, Component}) =>
+                                <Route path={path} component={Component} exact/>
+                            )}
+                            <Redirect to={POSTSLIST_ROUTE}/>
+                        </Switch>
                     </div>
                 </div>
             </div>
@@ -30,16 +39,7 @@ const AppRouter = () => {
             {/*<div className={classNames("col-sm-10", s.CBasis)}> adfs</div>*/}
 
             {/*<div className={classNames("col-sm-10")} >*/}
-            {/*    <Switch >*/}
-            {/*        {user.isAuth && authRoutes.map(({path, Component}) =>*/}
-            {/*            <Route path={path} component={Component} exact/>*/}
 
-            {/*        )}*/}
-            {/*        {publicRoutes.map(({path, Component}) =>*/}
-            {/*            <Route path={path} component={Component} exact/>*/}
-            {/*        )}*/}
-            {/*        <Redirect to={POSTSLIST_ROUTE}/>*/}
-            {/*    </Switch>*/}
             {/*</div>*/}
         </div>
     );

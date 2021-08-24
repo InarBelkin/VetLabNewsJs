@@ -4,7 +4,7 @@ import {PostEntity} from "./posts.entity";
 import {Repository} from "typeorm"
 import {PostsDto} from "./posts.dto";
 import {PostModel} from "../models/post.model";
-import {Theme} from "../themes/themes.entity";
+
 
 
 @Injectable()
@@ -13,7 +13,7 @@ export class PostsService {
     }
 
     async getAllPosts() {
-        const posts = await this.postRepository.find({where: {deleted: false}, relations:["themes"]});
+        const posts = await this.postRepository.find({where: {deleted: false}, relations:["tags"]});
         const newPosts = posts.map(post => {
             //post.themes = [new Theme()];
             post.content = post.content.slice(0, 50) + '...';
@@ -26,7 +26,7 @@ export class PostsService {
     }
 
     async getPost(id: string) {
-        return await this.postRepository.find({where: {id: id}});
+        return (await this.postRepository.find({where: {id: id}, relations:["tags"]}))[0];
     }
 
     async createPost(data: PostModel) {

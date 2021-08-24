@@ -1,7 +1,8 @@
-import {Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {Theme} from "../themes/themes.entity";
-import {ThemesService} from "../themes/themes.service";
+import {Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+
 import {User} from "../users/users.entity";
+import {Role} from "../roles/roles.entity";
+import {Tag} from "../tags/tags.entity";
 
 @Entity()
 export class PostEntity {
@@ -14,21 +15,24 @@ export class PostEntity {
     @Column({nullable: false})
     title: string;
 
+    @Column("date",{nullable:false})
+    date: Date;
+
+    @Column({nullable: false})
+    contentPreview: string;
+
     @Column({nullable: false})
     content: string;
 
     @Column("boolean",{nullable:false,default:false})
     deleted: boolean;
 
-    @Column({nullable: true})
-    userId: string;
-
-
-    @ManyToMany(type => Theme, theme=>theme.posts)
-    themes:Theme[];
-
     @ManyToOne(()=>User, user=>user.posts)
     @JoinColumn({name:"userId"})
     user: User;
+
+    @ManyToMany(()=>Tag)
+    @JoinTable()
+    tags:Tag[]
 
 }

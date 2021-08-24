@@ -5,7 +5,7 @@ import {ConfigModule} from "@nestjs/config";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {PostEntity} from "../posts/posts.entity";
 import {User} from "./users.entity";
-import {Role} from "../roles/roles.model";
+import {Role} from "../roles/roles.entity";
 import {RolesModule} from "../roles/roles.module";
 import {AuthModule} from "../auth/auth.module";
 import {JwtModule} from "@nestjs/jwt";
