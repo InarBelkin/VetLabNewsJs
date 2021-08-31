@@ -15,7 +15,7 @@ export class PostEntity {
     @Column({nullable: false})
     title: string;
 
-    @Column("date",{nullable:false})
+    @Column({nullable:false, default: new Date()})
     date: Date;
 
     @Column({nullable: false})

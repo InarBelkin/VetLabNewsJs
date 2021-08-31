@@ -1,4 +1,4 @@
-import {Module} from '@nestjs/common';
+import {DynamicModule, Module} from '@nestjs/common';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {TypeOrmModule} from "@nestjs/typeorm";
@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { AuthModule } from './auth/auth.module';
 import { TagsModule } from './tags/tags.module';
+
 
 @Module({
     imports: [
@@ -22,14 +23,20 @@ import { TagsModule } from './tags/tags.module';
                 username: configService.get('POSTGRES_USER'),
                 password: configService.get('POSTGRES_PASSWORD'),
                 database: configService.get('DB_NAME'),
-                entities:[PostEntity],
-                autoLoadEntities: true,
+                //entities:[__dirname + '/**/*.entity{.ts,.js}'],
+                 autoLoadEntities: true,
                 synchronize: true,
-                migrationsTableName: "migrations",
-                migrations:["migration/*.js"],
-                cli:{
-                    migrationsDir: "migration"
-                }
+                migrationsRun:true,
+                logging:true,
+                logger:'file',
+
+                // migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+                // cli: {
+                //     // Location of migration should be inside src folder
+                //     // to be compiled into dist/ folder.
+                //     migrationsDir: 'src/migrations',
+                // },
+
             }),
             inject:[ConfigService],
         }),

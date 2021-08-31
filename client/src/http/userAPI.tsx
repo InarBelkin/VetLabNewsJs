@@ -16,6 +16,11 @@ export const login= async (email:string,password:string)=>{
 export const check= async ()=>{
     const {data} = await $authHost.post('/auth/check');
     localStorage.setItem('token', data.token);
-    console.log(`токен сохранён: ${localStorage.getItem(('token'))}`);
-    return jwt_decode(data.token) as userModel;
+    const decodedToken = jwt_decode(data.token)
+    console.log("вот токен расшифрованный");
+    console.log(decodedToken);
+    const tokenUser = decodedToken as userModel;
+    console.log(tokenUser);
+    //console.log(`токен сохранён: ${localStorage.getItem(('token'))}`);
+    return  tokenUser;
 }

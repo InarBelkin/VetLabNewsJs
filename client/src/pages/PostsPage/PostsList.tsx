@@ -2,21 +2,31 @@ import React, {useContext, useEffect} from 'react';
 import {Col, Container, Row} from "react-bootstrap";
 import s from './PostsList.module.css'
 import {observer} from "mobx-react-lite";
-import TagBar from "./TagBar";
-import {Context} from "../../index";
 import PostItem from "./PostItem";
 import {fetchPosts} from "../../http/PostsAPI";
+import {postStore} from "../../store/PostsStore";
+import {tagStore} from "../../store/TagsStore";
 
 const PostsList = observer(() => {
-    const {posts} = useContext(Context);
-    useEffect(()=>{
-        fetchPosts().then(data=>posts.setPosts(data));
-    },[]);
+
+    // useEffect(() => {
+    //     fetchPosts(posts.Page, posts.Limit).then(data => {
+    //         posts.setPosts(data.data);
+    //         posts.setTotalCount(data.pageCount);
+    //     });
+    // }, []);
+
+    useEffect(() => {
+        fetchPosts(postStore.Page, postStore.Limit, tagStore.selectedTag?.id).then(data=>{
+            postStore.setPosts(data.data);
+            postStore.setTotalCount(data.pageCount);
+        });
+    },[postStore.Page, tagStore.selectedTag]);
 
     return (
         <Container className={s.allContainer}>
             <div>
-                {posts.posts.map(p =>
+                {postStore.posts.map(p =>
                     <PostItem postItem={p}/>
                 )}
             </div>

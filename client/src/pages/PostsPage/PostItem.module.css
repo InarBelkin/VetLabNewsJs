@@ -8,8 +8,8 @@
     transform-style: preserve-3d;
 
     display: grid;
-    grid-template-columns: 4fr 2fr;
-    grid-template-rows: 30px 40px auto 8px;
+    grid-template-columns: 4fr auto;
+    grid-template-rows: auto auto auto 8px;
 }
 
 .tagBlock{
@@ -35,5 +35,11 @@
 }
 
 .rightPart{
-alignment: right;
+    padding-inline: 10px;
+
+}
+
+.contPreview{
+    grid-column: 1 / span 2;
+    white-space: break-spaces;
 }

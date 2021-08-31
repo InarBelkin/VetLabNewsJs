@@ -1,10 +1,5 @@
-.rightPanel{
-    background: red;
-    min-height: 100vh;
-}
-
 .allContainer{
     padding: 0;
-    min-height: 100vh;
-    background: #989898;
+    /*min-height: 100vh;*/
+    /*background: #989898;*/
 }

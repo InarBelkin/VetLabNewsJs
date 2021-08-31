@@ -4,12 +4,13 @@ import {NavLink, useLocation} from "react-router-dom";
 import {LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 import {login, registration} from "../http/userAPI";
 import {observer} from "mobx-react-lite";
-import {Context} from "../index";
 import {userModel} from "../store/Models";
+import {userStore} from "../store/UserStore";
 
 
 const Auth: React.FC = observer (() => {
-    const {user} = useContext(Context);
+
+
     const location = useLocation();
     const isLogin = location.pathname === LOGIN_ROUTE
 
@@ -28,9 +29,9 @@ const Auth: React.FC = observer (() => {
                 data = await registration(email!,password!) as userModel;
                 setMessage(`Вы успешно зарегистрировались как ${data.email}`);
             }
-            user.setUser(data);
-            user.setIsAuth(true);
-            user.setEditMode(false);
+            userStore.setUser(data);
+            userStore.setIsAuth(true);
+            userStore.setEditMode(false);
         }
         catch (e){
             setMessage(e.response.data.message);

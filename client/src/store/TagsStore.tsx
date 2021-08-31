@@ -1,20 +1,16 @@
 import {makeAutoObservable} from "mobx";
 import {tagModel} from "./Models";
 
-export class Tag {
-
-}
-
-export default class TagsStore {
+class TagsStore {
     constructor() {
         this._tags = []
-        this._selectedTag = new tagModel();
+        this._selectedTag = null;
 
         makeAutoObservable(this);
     }
 
     private _tags: tagModel[];
-    private _selectedTag: tagModel;
+    private _selectedTag: tagModel|null;
 
 
     public setTags(tags: tagModel[]) {
@@ -25,8 +21,9 @@ export default class TagsStore {
         return this._tags;
     }
 
-    public setSelectedTag(tag: tagModel) {
+    public setSelectedTag(tag: tagModel|null) {
         this._selectedTag = tag;
+
     }
 
     get selectedTag() {
@@ -34,3 +31,5 @@ export default class TagsStore {
     }
 
 }
+
+export const tagStore = new TagsStore();

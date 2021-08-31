@@ -1,0 +1,17 @@
+.tagBlock{
+    background-color: #bfbfbf;
+    border-radius: 5px;
+
+    transition: 0.5s;
+    transform-style: preserve-3d;
+
+    padding-inline: 5px;
+padding-block: 5px;
+    margin: 3px ;
+    display: inline-block;
+
+}
+
+.expandForm{
+    width: 100%;
+}

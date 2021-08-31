@@ -1,25 +1,20 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import s from './LeftSideBar.module.css'
+import {POSTSLIST_ROUTE} from "../utils/consts";
+import {observer} from "mobx-react-lite";
 
-const LeftSideBar: React.FC = () => {
+const LeftSideBar = observer(() => {
+
     return (
         <div className={s.cAll}>
             <div className="sticky-top">
                 <div className="nav flex-column">
-
-                    <p>первый</p>
-                    <p>втоойо</p>
-                    <p>Д3афийо</p>
-                    <p>Да что</p>
-                    <a href="#_" className="nav-link">Link</a>
-                    <a href="#_" className="nav-link">Link</a>
-                    <a href="#_" className="nav-link">Link</a>
-                    <a href="#_" className="nav-link">Link</a>
-                    <a href="#_" className="nav-link">Link</a>
+                    <NavLink to={POSTSLIST_ROUTE} className="nav-link">Новости</NavLink>
                 </div>
             </div>
         </div>
     );
-};
+});
 
 export default LeftSideBar;

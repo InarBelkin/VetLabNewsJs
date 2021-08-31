@@ -27,3 +27,17 @@
     display: inline-block;
 
 }
+
+.slashN{
+    white-space: break-spaces;
+}
+.expandForm{
+    width: 100%;
+}
+
+
+.PContent{
+    height: auto;
+    width:100%;
+    height: 300px;
+}

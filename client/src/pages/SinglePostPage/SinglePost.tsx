@@ -3,66 +3,60 @@ import {observer} from "mobx-react-lite";
 import {postModel} from "../../store/Models";
 import s from './SinglePost.module.css'
 import classNames from "classnames";
-import {Col, Row} from "react-bootstrap";
-import {Context} from "../../index";
+import {Col, Row, Form, Button} from "react-bootstrap";
 import {useParams} from "react-router-dom";
-import {fetchOnePost} from "../../http/PostsAPI";
-
+import {createPost, fetchOnePost, updatePost} from "../../http/PostsAPI";
+import TextareaAutosize from 'react-textarea-autosize';
+import EditPostForm from "./EditPostForm";
+import {userStore} from "../../store/UserStore";
 
 const SinglePost = observer(() => {
-    const {id} = useParams<{id:string}>();
+    const {id} = useParams<{ id: string }>();
 
-    const [post, setPost] = useState({
-        id: 'myid2', title: "заголовок 2", contentPreview: 'превью2',
-        date: new Date(2020, 12, 14),
-        content: "aadsdfasff", deleted: false,
-        tags: [{id: "124", name: "заказы", description: ""},
-            {id: "125", name: "праздники", description: ""}]
-    });
+    const [post, setPost] = useState(new postModel());
+    const [loadPost, setLoadPost] = useState(true);
 
-     const {user} = useContext(Context);
     useEffect(() => {
-
-        fetchOnePost(id).then(data=>{setPost(data)});
+        fetchOnePost(id).then(data => {
+            setPost(data);
+        }).finally(() => setLoadPost(false));
     }, [])
+
+    const updPost=(data:Partial<postModel>)=>{
+        updatePost(post.id, data ).then(data=>{alert("пост успешно изменён")});
+    }
 
     return (
         <div className={classNames('container',)}>
             <div className='row'>
                 <div className='column col-sm-2'></div>
-                {
-                    user.isEditMode ?
-                        <div className={classNames('col-sm', s.centralColumn)}>
-                            <form>
-                                <p>Заголовок</p>
-                                <input className={s.PTitle} type=""
-                                       value={post.title}
-                                       name="title"
-                                       onChange={() => {
-                                       }}/>
-                                <p>Превью статьи</p>
-                                <textarea name="content" className={s.PContent} value={post.contentPreview}
-                                          onChange={() => {
-                                          }}/>
-                                <p>Превью статьи</p>
-                                <textarea name="content" className={s.PContent} value={post.content}
-                                          onChange={() => {
-                                          }}/>
-                            </form>
-                        </div>
-                        :
-                        <div className={classNames('col-sm', s.centralColumn)}>
-                            <div className={s.Title}>{post.title}</div>
-                            <div className={classNames(s.tagList)}>
-                                {post.tags?.map(t =>
-                                    <div className={s.tagBlock}>{t.name}</div>)
+                <div className={classNames('col-sm', s.centralColumn)}>
+                    {
+                        userStore.isEditMode ?
+                            <>
+                                {
+                                    loadPost?
+                                        <div>Пост загружается</div>
+                                        :
+                                        <>
+                                            <div>Редактирование поста</div>
+                                            <EditPostForm post={post} onToggle={data=>updPost(data)}/>
+                                        </>
                                 }
-                            </div>
-                            <div>{post.contentPreview}</div>
-                            <div>{post.content}</div>
-                        </div>
-                }
-
+                            </>
+                            :
+                            <>
+                                <div className={s.Title}>{post.title}</div>
+                                <div className={classNames(s.tagList)}>
+                                    {post.tags?.map(t =>
+                                        <div className={s.tagBlock}>{t.name}</div>)
+                                    }
+                                </div>
+                                <div className={s.slashN}>{post.contentPreview}</div>
+                                <div className={s.slashN}>{post.content}</div>
+                            </>
+                    }
+                </div>
                 <div className='col-sm-2'></div>
             </div>
         </div>

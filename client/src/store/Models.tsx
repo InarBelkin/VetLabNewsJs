@@ -31,11 +31,11 @@ export class roleModel{
 
 export class postModel{
     constructor() {
-        this.id="default";
-        this.title= 'default';
+        this.id="";
+        this.title= '';
         this.date=new Date();
-        this.contentPreview = 'default';
-        this.content = 'default';
+        this.contentPreview = '';
+        this.content = '';
         this.deleted = false;
         this.tags = [];
     }

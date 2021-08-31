@@ -1,3 +1,7 @@
 .tagItem{
     cursor: pointer;
 }
+
+.form{
+    margin:5px;
+}

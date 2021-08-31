@@ -21,21 +21,21 @@ export class TagsController {
         return this.tagService.getOne(id);
     }
 
-    @Roles(process.env.ROLE_ADMIN)
+    @Roles(`ADMIN`)
     @UseGuards(RolesGuard)
     @Post()
     create(@Body() data:TagDto){
         return this.tagService.create(data);
     }
 
-    @Roles(process.env.ROLE_ADMIN)
+    @Roles(`ADMIN`)
     @UseGuards(RolesGuard)
     @Patch('/:id')
     update(@Param('id') id:string, @Body() data:Partial<Tag>){
         return this.tagService.update(id,data);
     }
 
-    @Roles(process.env.ROLE_ADMIN)
+    @Roles(`ADMIN`)
     @UseGuards(RolesGuard)
     @Delete('/:id')
     delete(@Param('id') id:string)

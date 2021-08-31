@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Context} from "../index";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {NavLink, useHistory} from "react-router-dom";
 import s from './NavBar.module.css'
@@ -9,18 +9,20 @@ import {observer} from "mobx-react-lite";
 import {LOGIN_ROUTE} from "../utils/consts";
 import classNames from "classnames";
 import {userModel} from "../store/Models";
+import {userStore} from "../store/UserStore";
 
 const NavBar = observer(() => {
     const history = useHistory();
 
+
     const logOut = () => {
-        user.setUser(new userModel(true));
-        user.setIsAuth(false);
+        userStore.setUser(new userModel(true));
+        userStore.setIsAuth(false);
         localStorage.setItem('token', '');  //говно
 
     }
 
-    const {user} = useContext(Context);
+
     return (
         <nav className={classNames("navbar navbar-expand-lg navbar-light bg-light ", s.forAll)}>
             <div className="navbar-brand" style={{margin: 0, padding: 0}}>
@@ -36,10 +38,16 @@ const NavBar = observer(() => {
                     </li>
                 </ul>
             </div>
-            <div>Приветствую, {user.user.email}</div>
-            {user.isAuth ?
+
+            <div>Приветствую, {userStore.user.email}</div>
+            {userStore.isAuth ?
                 <>
-                    {user.isAdmin?<Form.Check type="checkbox" label="Режим редактирования" onChange={e=>console.log(e.target.value)} />:<>,</>}
+                    {userStore.isAdmin ? <> <input type="checkbox" name="myInput" className={s.paddington}
+                                              defaultChecked={userStore.isEditMode}
+                                              onChange={()=>userStore.setEditMode(!userStore.isEditMode)}
+                            />
+                        <>Режим редактирования</>
+                    </> : <></>}
                     <div className="form-inline my-2 my-lg-0">
                         <button className="btn btn-outline-dark mx-2" onClick={() => logOut()}>Выйти</button>
                     </div>

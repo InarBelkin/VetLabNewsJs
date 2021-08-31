@@ -20,7 +20,8 @@ export class UsersController {
     }
 
 
-
+    @Roles("ADMIN")
+    @UseGuards(RolesGuard)
     @Post()
     async registration(@Body() data: CreateUserDto) {
         return await this.userService.createUser(data);

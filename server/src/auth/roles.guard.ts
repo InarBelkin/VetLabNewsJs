@@ -22,8 +22,9 @@ export class RolesGuard implements CanActivate {
         try {
             const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
                 context.getHandler(),
-                context.getClass()
+                context.getClass(),
             ])
+            console.log(requiredRoles);
             if (!requiredRoles) {
                 return true;
             }
@@ -38,7 +39,8 @@ export class RolesGuard implements CanActivate {
 
             const user = this.jwtService.verify(token);
             req.user = user;
-            return user.roles.some(role=>requiredRoles.includes(role.name));
+            const ret = user.roles.some(role=>requiredRoles.includes(role.name));
+            return ret;
 
         } catch (e) {
             console.log(e);

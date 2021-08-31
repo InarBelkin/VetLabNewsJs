@@ -1,6 +1,6 @@
-export interface PostModel{
-    userId: string;
-    themeId: string[];
+export interface PostModel {
     title: string;
+    contentPreview: string;
     content: string;
+
 }

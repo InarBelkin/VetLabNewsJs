@@ -1,12 +1,13 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {observer} from "mobx-react-lite";
-import {Context} from "../../index";
 import {Button, Col, Row} from "react-bootstrap";
 import s from './PostItem.module.css'
 import dayjs from "dayjs";
 import {postModel} from "../../store/Models";
 import {SINGLEPOST_ROUTE} from '../../utils/consts';
 import {NavLink} from 'react-router-dom';
+import {cancelDeletePost, deletePost} from "../../http/PostsAPI";
+import {userStore} from "../../store/UserStore";
 
 type postItemProps = {
     postItem: postModel;
@@ -14,14 +15,18 @@ type postItemProps = {
 
 const PostItem: React.FC<postItemProps> =
     observer(({postItem}) => {
-        const {user} = useContext(Context);
 
-        const delButton = () => {
-            return user.isEditMode ?
-                <p><Button variant="secondary">Удалить</Button></p>
-                : null;
+        const delThisPost = () => {
+            deletePost(postItem.id).then(d => {
+               postItem.deleted = true;
+            })
         }
 
+        const cancelDelThisPost = () => {
+            cancelDeletePost(postItem.id).then(d => {
+                postItem.deleted = false;
+            })
+        }
         return (
             <div className={s.postBlock}>
                 <p>
@@ -31,13 +36,19 @@ const PostItem: React.FC<postItemProps> =
                         }
                     </Row>
                 </p>
-                <p className={s.rightPart } > {dayjs(postItem.date).format('DD.MM.YYYY')}</p>
+                <p className={s.rightPart}> {dayjs(postItem.date).format('DD.MM.YYYY')}</p>
                 <NavLink to={SINGLEPOST_ROUTE + '/' + postItem.id} className={s.postTitle}>{postItem.title}</NavLink>
                 <div>
-                    {delButton()}
+                    {userStore.isEditMode ?
+                        <p>{postItem.deleted ? <Button onClick={() => cancelDelThisPost()}>Отменить удаление</Button>
+                            : <Button onClick={() => delThisPost()}
+                                      variant="danger">Удалить</Button>}
+                        </p>
+                        : null
+                    }
                 </div>
-                <p>{postItem.contentPreview}</p>
-                <div></div>
+                <p className={s.contPreview}>{postItem.contentPreview}</p>
+
             </div>
         );
     });
