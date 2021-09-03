@@ -5,7 +5,9 @@ import {Tag} from "./tags.entity";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {Roles} from "../auth/roles-auth.decorator";
 import {RolesGuard} from "../auth/roles.guard";
+import {ApiTags} from "@nestjs/swagger";
 
+@ApiTags('Теги')
 @Controller('tags')
 export class TagsController {
     constructor(private tagService: TagsService) {

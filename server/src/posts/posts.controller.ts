@@ -4,17 +4,23 @@ import {PostsDto} from "./posts.dto";
 import * as Path from "path";
 import {Roles} from "../auth/roles-auth.decorator";
 import {RolesGuard} from "../auth/roles.guard";
+import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
+import {PostEntity} from "./posts.entity";
 
+@ApiTags('Посты')
 @Controller('posts')
 export class PostsController {
     constructor(private postService: PostsService) {
     }
 
+    @ApiOperation({summary: 'Получить все посты'})
     @Get('/getall')
     getAll() {
         return this.postService.getAllPosts();
     }
 
+    @ApiOperation({summary: 'Получить посты по фильтру'})
+    @ApiResponse({status: 200, type: [PostEntity]})
     @Get()
     getByFilter(@Query() pagination:{page:number,limit:number,tagId?:string}){
         return this.postService.getFilterPosts(pagination.tagId,pagination.limit,pagination.page);

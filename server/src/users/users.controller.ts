@@ -5,8 +5,9 @@ import {CreateUserDto} from "./dto/CreateUserDto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {RolesGuard} from "../auth/roles.guard";
 import {Roles} from "../auth/roles-auth.decorator";
+import {ApiTags} from "@nestjs/swagger";
 
-
+@ApiTags('пользователи')
 @Controller('users')
 export class UsersController {
     constructor(private userService: UsersService) {
